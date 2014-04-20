@@ -1,4 +1,5 @@
 package crudpessoa;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -12,7 +13,6 @@ import javax.swing.JPanel;
 
 public class JanelaPrincipal extends JFrame {
     
-    private JFrame janela = new JFrame();
     private JPanel painel = new JPanel();
     
     private JList listaPessoas;
@@ -23,12 +23,12 @@ public class JanelaPrincipal extends JFrame {
     
     public JanelaPrincipal(){
         
-        setTitle("Pessoas");
-        setSize(250,400);
+        setTitle("Pessoas");            // nome inicial
+        setSize(250,400);               // tamanho da tela
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        montaJanela(); // inclui componentes na janela principal
-        setLocationRelativeTo(null);
-        setVisible(true);
+        montaJanela();                  // inclui componentes na janela principal
+        setLocationRelativeTo(null);    // localiza no centro da tela
+        setVisible(true);               // seta como visivel
     }
     public void montaJanela(){
         
@@ -36,33 +36,34 @@ public class JanelaPrincipal extends JFrame {
         listaPessoas = new JList<>();
         
         DefaultListModel<Pessoa> pessoas = new DefaultListModel<Pessoa>();
-        pessoas.addElement(new Pessoa("Fulano", 30));
-        listaPessoas.setModel(pessoas);
+        listaPessoas.setModel(pessoas); 
         
         painel.setLayout(new FlowLayout());
-        painel.add(botaoNovo);
+        // insere botão novo e executa função
         botaoNovo.addActionListener(confereBotoes);
-        painel.add(botaoEditar);
+        painel.add(botaoNovo);
+        // insere botão editar e executa função
         botaoEditar.addActionListener(confereBotoes);
-        painel.add(botaoRemover);
+        painel.add(botaoEditar);
+        // insere botão remover e executa função
         botaoRemover.addActionListener(confereBotoes);
-        
+        painel.add(botaoRemover);
+        // define layout da tela
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(listaPessoas,BorderLayout.CENTER);
         getContentPane().add(painel,BorderLayout.SOUTH);
-        
     }
     
     void cadastra(String nome, String idade) {
         Pessoa listpessoa = new Pessoa(nome, Integer.parseInt(idade));
         DefaultListModel<Pessoa> model = (DefaultListModel<Pessoa>) listaPessoas.getModel();
-        model.addElement(listpessoa);
+        model.addElement(listpessoa);       // adiciona pessoa a lista existente
         JOptionPane.showMessageDialog(this, nome +" - "+ idade +" anos"+"\n\nCadastrado realizado!");
     }
-    void edita(int indexEdicao, String nome, String idade) {
+    void edita(int indexEdit, String nome, String idade) {
         Pessoa listpessoa = new Pessoa(nome, Integer.parseInt(idade));
         DefaultListModel<Pessoa> model = (DefaultListModel<Pessoa>) listaPessoas.getModel();
-        model.set(indexEdicao,listpessoa);
+        model.set(indexEdit,listpessoa);    // edita pessoa de acordo com o index a lista existente
         JOptionPane.showMessageDialog(this, nome +" - "+ idade +" anos"+"\n\nEdição Realizada!");
     }    
     public class TrataBotoes implements ActionListener {
@@ -78,16 +79,27 @@ public class JanelaPrincipal extends JFrame {
                 mostratela.setVisible(false);
             }
             else if (e.getSource() == botaoEditar) {
-             
+                int index = listaPessoas.getSelectedIndex();
+                if (index >= 0) {
+                    DefaultListModel<Pessoa> model = (DefaultListModel<Pessoa>) listaPessoas.getModel();
+                    FormularioCadastrar cadastro = new FormularioCadastrar(mostratela,
+                            model.getElementAt(index).getNome(),                   
+                            String.valueOf(model.getElementAt(index).getIdade()),   
+                            index);
+                    mostratela.setVisible(false);
+                } 
+                else
+                    JOptionPane.showMessageDialog(mostratela, "Selecione um elemento para editá-lo");
             } 
             else if (e.getSource() == botaoRemover) {
-                
+                if (listaPessoas.getSelectedIndex() >= 0) {
+                    DefaultListModel<Pessoa> model = (DefaultListModel<Pessoa>) listaPessoas.getModel();
+                    model.remove(listaPessoas.getSelectedIndex());
+                    JOptionPane.showMessageDialog(mostratela, "Elemento removido com sucesso!");
+                }
+                else
+                    JOptionPane.showMessageDialog(mostratela, "Selecione um elemento para editá-lo");
             }
         }
     }
-    
-    
-    
-    
-    
 }

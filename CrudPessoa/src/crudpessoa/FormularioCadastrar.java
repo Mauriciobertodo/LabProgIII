@@ -7,11 +7,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class FormularioCadastrar extends JFrame {
@@ -45,7 +43,7 @@ public class FormularioCadastrar extends JFrame {
     }
     public FormularioCadastrar(JanelaPrincipal principal, String nome, String idade, int index) {
         this(principal);
-        index = index;
+        indexEdit = index;
         textoNome.setText(nome);
         textoIdade.setText(idade);
     }
@@ -65,15 +63,12 @@ public class FormularioCadastrar extends JFrame {
         getContentPane().add(painelIdade);
 
         //insere botão confirmar cadastro
-        botaoConfirmar = new JButton("Confirmar");
-        painelBotoes.add(botaoConfirmar);
         botaoConfirmar.addActionListener(new TrataBotoes());
+        painelBotoes.add(botaoConfirmar);
         
         //insere botão cancelar cadastro
-        botaoCancelar = new JButton("Cancelar");
-        painelBotoes.add(botaoCancelar);
         botaoCancelar.addActionListener(new TrataBotoes());
-        
+        painelBotoes.add(botaoCancelar);
 
         getContentPane().add(painelBotoes);
     }
