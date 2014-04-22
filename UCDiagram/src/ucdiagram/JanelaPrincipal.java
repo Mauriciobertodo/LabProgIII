@@ -96,6 +96,30 @@ public class JanelaPrincipal extends JFrame {
             }
         });
         
+        // mostra subMenu HELP INGLES
+        JMenuItem menuHelpEnglish = new JMenuItem("English");// aqui insere o icone tambem
+        menuHelp.add(menuHelpEnglish);
+        menuHelpEnglish.setMnemonic(KeyEvent.VK_E);        
+        menuHelpEnglish.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,ActionEvent.SHIFT_MASK));
+        menuHelpEnglish.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                menuHelpEnglish();
+            }
+        });
+        
+        // mostra subMenu HELP INGLES
+        JMenuItem menuHelpPortuguese = new JMenuItem("Portuguese");// aqui insere o icone tambem
+        menuHelp.add(menuHelpPortuguese);
+        menuHelpPortuguese.setMnemonic(KeyEvent.VK_P);        
+        menuHelpPortuguese.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,ActionEvent.SHIFT_MASK));
+        menuHelpPortuguese.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                menuHelpPortuguese();
+            }
+        });
+        
         // insere na janela principal os elementos criados
         menubar.add(menuFile);
         menubar.add(menuEdit);
@@ -115,7 +139,10 @@ public class JanelaPrincipal extends JFrame {
     void menuEditClean(){
         JOptionPane.showMessageDialog(null,"Menu Limpa tela");
     }
-    void menuHelp(){
-        JOptionPane.showMessageDialog(null,"Menu Help");
+    void menuHelpEnglish(){
+        JOptionPane.showMessageDialog(null,"Menu Help INGLES");
+    }
+    void menuHelpPortuguese(){
+        JOptionPane.showMessageDialog(null,"Menu Help PORTUGUES");
     }
 }
