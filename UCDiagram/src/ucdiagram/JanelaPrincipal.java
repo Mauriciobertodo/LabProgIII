@@ -21,6 +21,7 @@ public class JanelaPrincipal extends JFrame {
     //private JTextArea textoArea;
     private JToolBar barraFerramentas;
     private JButton Select, Actor, UseCase, Association, Dependecy, Line, Text;
+    TelaDesenho telaDesenho;
     
     public JanelaPrincipal(){
         
@@ -33,6 +34,9 @@ public class JanelaPrincipal extends JFrame {
     }
     public void menuOpcoes(){
 
+        telaDesenho = new TelaDesenho();
+        getContentPane().add(telaDesenho);
+        
         JMenuBar menubar = new JMenuBar();
 
         // mostra menu FILE  
@@ -127,7 +131,6 @@ public class JanelaPrincipal extends JFrame {
         
         // monta toda a janela
         setJMenuBar(menubar);
-        
     }
     
     void menuFileNew(){
@@ -137,7 +140,8 @@ public class JanelaPrincipal extends JFrame {
         JOptionPane.showMessageDialog(null,"Menu Salvar");
     }
     void menuEditClean(){
-        JOptionPane.showMessageDialog(null,"Menu Limpa tela");
+        telaDesenho.clearTela();
+        getContentPane().repaint();        
     }
     void menuHelpEnglish(){
         JOptionPane.showMessageDialog(null,"Menu Help INGLES");
@@ -149,36 +153,38 @@ public class JanelaPrincipal extends JFrame {
     public void toolbarMenu(){
         
         TrataBotoes trataBotoes = new TrataBotoes();
-        
         barraFerramentas = new JToolBar();
+        
+        // cria botão select
         Select = new JButton(createImageIcon("/imagens/Select.png","Select"));
         Select.addActionListener(trataBotoes);
         barraFerramentas.add(Select);
-        
+        // cria botão actor
         Actor = new JButton(createImageIcon("/imagens/Actor.png","Actor"));
         Actor.addActionListener(trataBotoes);
         barraFerramentas.add(Actor);
-        
+        // cria botão usecase
         UseCase = new JButton(createImageIcon("/imagens/UseCase.png","UseCase"));
         UseCase.addActionListener(trataBotoes);
         barraFerramentas.add(UseCase);
-        
+        // cria botão association
         Association = new JButton(createImageIcon("/imagens/Association.png","Association"));
         Association.addActionListener(trataBotoes);
         barraFerramentas.add(Association);
-        
+        // cria botão dependecy
         Dependecy = new JButton(createImageIcon("/imagens/Dependecy.png","Dependecy"));
         Dependecy.addActionListener(trataBotoes);
         barraFerramentas.add(Dependecy);
-        
+        // cria botão line
         Line = new JButton(createImageIcon("/imagens/Line.png","Line"));
         Line.addActionListener(trataBotoes);
         barraFerramentas.add(Line);
-        
+        // cria botão text
         Text = new JButton(createImageIcon("/imagens/Text.png","Text"));
         Text.addActionListener(trataBotoes);
         barraFerramentas.add(Text);
         
+        barraFerramentas.setFloatable(false);
         getContentPane().add(barraFerramentas,BorderLayout.SOUTH);
         getContentPane().revalidate();
     }
@@ -202,9 +208,16 @@ public class JanelaPrincipal extends JFrame {
            }
            else if(e.getSource().equals(Actor)){
                JOptionPane.showMessageDialog(null, "Actor");
+               Circulo actorCreate = new Circulo(200, 150);
+               //actorCreate.desenha();
+               telaDesenho.addFigura(actorCreate);
+               getContentPane().repaint();
            }
            else if(e.getSource().equals(UseCase)){
-               JOptionPane.showMessageDialog(null, "UseCase");
+               
+                Circulo circ = new Circulo(200, 150);
+                telaDesenho.addFigura(circ);
+                getContentPane().repaint();
            }
            else if(e.getSource().equals(Association)){
                JOptionPane.showMessageDialog(null, "Association");
