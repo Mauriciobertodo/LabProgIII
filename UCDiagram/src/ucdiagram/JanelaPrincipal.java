@@ -2,35 +2,33 @@
 package ucdiagram;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 
 public class JanelaPrincipal extends JFrame {
     
-    private JTextArea textoArea;
+    //private JTextArea textoArea;
     private JToolBar barraFerramentas;
     
     public JanelaPrincipal(){
         
-       setTitle("UCDiagram - Sistema de Cadastro");            // nome inicial
-       setSize(600,400);               // tamanho da tela
+       setTitle("UCDiagram - Sistema de Cadastro");             // nome inicial
+       setSize(600,400);                                        // tamanho da tela
        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       menuOpcoes();                   // inclui componentes na janela principal
-       setLocationRelativeTo(null);    // localiza no centro da tela
-       setVisible(true);               // seta como visivel
+       menuOpcoes();                                            // inclui componentes na janela principal
+       setLocationRelativeTo(null);                             // localiza no centro da tela
+       setVisible(true);                                        // seta como visivel
     }
     public void menuOpcoes(){
 
@@ -128,10 +126,12 @@ public class JanelaPrincipal extends JFrame {
         
         // monta toda a janela
         setJMenuBar(menubar);
+        
     }
     
     void menuFileNew(){
-        JOptionPane.showMessageDialog(null,"Menu  Novo");
+        //JOptionPane.showMessageDialog(null,"Menu  Novo");
+        toolbarMenu();
     }
     void menuFileSave(){
         JOptionPane.showMessageDialog(null,"Menu Salvar");
@@ -145,4 +145,32 @@ public class JanelaPrincipal extends JFrame {
     void menuHelpPortuguese(){
         JOptionPane.showMessageDialog(null,"Menu Help PORTUGUES");
     }
+    
+    public void toolbarMenu(){
+        
+        barraFerramentas = new JToolBar();
+        barraFerramentas.add(new JButton(createImageIcon("/imagens/Select.png","Select")));
+        
+        
+        barraFerramentas.add(new JButton(createImageIcon("/imagens/UseCase.png","UseCase")));
+        barraFerramentas.add(new JButton(createImageIcon("/imagens/Actor.png","Actor")));
+        barraFerramentas.add(new JButton(createImageIcon("/imagens/Association.png","Association")));
+        barraFerramentas.add(new JButton(createImageIcon("/imagens/Dependecy.png","Dependecy")));
+        barraFerramentas.add(new JButton(createImageIcon("/imagens/Select.png","Select")));
+        barraFerramentas.setRollover(true);
+        getContentPane().add(barraFerramentas,BorderLayout.SOUTH);
+        getContentPane().revalidate();
+        
+    }
+    
+    protected static ImageIcon createImageIcon(String path,String description) {
+        java.net.URL imgURL = JanelaPrincipal.class.getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } 
+        else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }   
 }
