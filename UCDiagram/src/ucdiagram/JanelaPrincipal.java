@@ -20,6 +20,7 @@ public class JanelaPrincipal extends JFrame {
     
     //private JTextArea textoArea;
     private JToolBar barraFerramentas;
+    private JButton Select, Actor, UseCase, Association, Dependecy, Line, Text;
     
     public JanelaPrincipal(){
         
@@ -130,7 +131,6 @@ public class JanelaPrincipal extends JFrame {
     }
     
     void menuFileNew(){
-        //JOptionPane.showMessageDialog(null,"Menu  Novo");
         toolbarMenu();
     }
     void menuFileSave(){
@@ -148,19 +148,39 @@ public class JanelaPrincipal extends JFrame {
     
     public void toolbarMenu(){
         
+        TrataBotoes trataBotoes = new TrataBotoes();
+        
         barraFerramentas = new JToolBar();
-        barraFerramentas.add(new JButton(createImageIcon("/imagens/Select.png","Select")));
+        Select = new JButton(createImageIcon("/imagens/Select.png","Select"));
+        Select.addActionListener(trataBotoes);
+        barraFerramentas.add(Select);
         
+        Actor = new JButton(createImageIcon("/imagens/Actor.png","Actor"));
+        Actor.addActionListener(trataBotoes);
+        barraFerramentas.add(Actor);
         
-        barraFerramentas.add(new JButton(createImageIcon("/imagens/UseCase.png","UseCase")));
-        barraFerramentas.add(new JButton(createImageIcon("/imagens/Actor.png","Actor")));
-        barraFerramentas.add(new JButton(createImageIcon("/imagens/Association.png","Association")));
-        barraFerramentas.add(new JButton(createImageIcon("/imagens/Dependecy.png","Dependecy")));
-        barraFerramentas.add(new JButton(createImageIcon("/imagens/Select.png","Select")));
-        barraFerramentas.setRollover(true);
+        UseCase = new JButton(createImageIcon("/imagens/UseCase.png","UseCase"));
+        UseCase.addActionListener(trataBotoes);
+        barraFerramentas.add(UseCase);
+        
+        Association = new JButton(createImageIcon("/imagens/Association.png","Association"));
+        Association.addActionListener(trataBotoes);
+        barraFerramentas.add(Association);
+        
+        Dependecy = new JButton(createImageIcon("/imagens/Dependecy.png","Dependecy"));
+        Dependecy.addActionListener(trataBotoes);
+        barraFerramentas.add(Dependecy);
+        
+        Line = new JButton(createImageIcon("/imagens/Line.png","Line"));
+        Line.addActionListener(trataBotoes);
+        barraFerramentas.add(Line);
+        
+        Text = new JButton(createImageIcon("/imagens/Text.png","Text"));
+        Text.addActionListener(trataBotoes);
+        barraFerramentas.add(Text);
+        
         getContentPane().add(barraFerramentas,BorderLayout.SOUTH);
         getContentPane().revalidate();
-        
     }
     
     protected static ImageIcon createImageIcon(String path,String description) {
@@ -172,5 +192,32 @@ public class JanelaPrincipal extends JFrame {
             System.err.println("Couldn't find file: " + path);
             return null;
         }
-    }   
+    }
+    
+    class TrataBotoes implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           if(e.getSource().equals(Select)){
+               JOptionPane.showMessageDialog(null, "Select");
+           }
+           else if(e.getSource().equals(Actor)){
+               JOptionPane.showMessageDialog(null, "Actor");
+           }
+           else if(e.getSource().equals(UseCase)){
+               JOptionPane.showMessageDialog(null, "UseCase");
+           }
+           else if(e.getSource().equals(Association)){
+               JOptionPane.showMessageDialog(null, "Association");
+           }
+           else if(e.getSource().equals(Dependecy)){
+               JOptionPane.showMessageDialog(null, "Dependecy");
+           }
+           else if(e.getSource().equals(Line)){
+               JOptionPane.showMessageDialog(null, "Line");
+           }
+           else if(e.getSource().equals(Text)){
+               JOptionPane.showMessageDialog(null, "Text");
+           }           
+        }
+    }
 }
