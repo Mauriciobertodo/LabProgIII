@@ -5,22 +5,27 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 
 public class JanelaPrincipal extends JFrame {
     
-    //private JTextArea textoArea;
     private JToolBar barraFerramentas;
-    private JButton Select, Actor, UseCase, Association, Dependecy, Line, Text;
+    private JLabel statusBar;
+    private JToggleButton Select, Actor, UseCase, Association, Dependecy, Line, Text;
     TelaDesenho telaDesenho;
     
     public JanelaPrincipal(){
@@ -36,6 +41,9 @@ public class JanelaPrincipal extends JFrame {
 
         telaDesenho = new TelaDesenho();
         getContentPane().add(telaDesenho);
+        telaDesenho.addMouseListener(new TratadorMouse());
+        telaDesenho.addMouseMotionListener(new TratadorMouse());
+        getContentPane().add(new JScrollPane(telaDesenho));
         
         JMenuBar menubar = new JMenuBar();
 
@@ -141,7 +149,7 @@ public class JanelaPrincipal extends JFrame {
     }
     void menuEditClean(){
         telaDesenho.clearTela();
-        getContentPane().repaint();        
+        getContentPane().repaint();
     }
     void menuHelpEnglish(){
         JOptionPane.showMessageDialog(null,"Menu Help INGLES");
@@ -152,40 +160,33 @@ public class JanelaPrincipal extends JFrame {
     
     public void toolbarMenu(){
         
-        TrataBotoes trataBotoes = new TrataBotoes();
         barraFerramentas = new JToolBar();
         
         // cria botão select
-        Select = new JButton(createImageIcon("/imagens/Select.png","Select"));
-        Select.addActionListener(trataBotoes);
+        Select = new JToggleButton(createImageIcon("/imagens/Select.png","Select"), false);
         barraFerramentas.add(Select);
         // cria botão actor
-        Actor = new JButton(createImageIcon("/imagens/Actor.png","Actor"));
-        Actor.addActionListener(trataBotoes);
+        Actor = new JToggleButton(createImageIcon("/imagens/Actor.png","Actor"), false);
         barraFerramentas.add(Actor);
         // cria botão usecase
-        UseCase = new JButton(createImageIcon("/imagens/UseCase.png","UseCase"));
-        UseCase.addActionListener(trataBotoes);
+        UseCase = new JToggleButton(createImageIcon("/imagens/UseCase.png","UseCase"), false);
         barraFerramentas.add(UseCase);
         // cria botão association
-        Association = new JButton(createImageIcon("/imagens/Association.png","Association"));
-        Association.addActionListener(trataBotoes);
+        Association = new JToggleButton(createImageIcon("/imagens/Association.png","Association"), false);
         barraFerramentas.add(Association);
         // cria botão dependecy
-        Dependecy = new JButton(createImageIcon("/imagens/Dependecy.png","Dependecy"));
-        Dependecy.addActionListener(trataBotoes);
+        Dependecy = new JToggleButton(createImageIcon("/imagens/Dependecy.png","Dependecy"), false);
         barraFerramentas.add(Dependecy);
         // cria botão line
-        Line = new JButton(createImageIcon("/imagens/Line.png","Line"));
-        Line.addActionListener(trataBotoes);
+        Line = new JToggleButton(createImageIcon("/imagens/Line.png","Line"), false);
         barraFerramentas.add(Line);
         // cria botão text
-        Text = new JButton(createImageIcon("/imagens/Text.png","Text"));
-        Text.addActionListener(trataBotoes);
+        Text = new JToggleButton(createImageIcon("/imagens/Text.png","Text"), false);
         barraFerramentas.add(Text);
         
-        barraFerramentas.setFloatable(false);
+        barraFerramentas.setFloatable(false); // deixa o toolbar fixo na tela
         getContentPane().add(barraFerramentas,BorderLayout.SOUTH);
+        //getContentPane().add(new JScrollPane(telaDesenho));
         getContentPane().revalidate();
     }
     
@@ -200,37 +201,115 @@ public class JanelaPrincipal extends JFrame {
         }
     }
     
-    class TrataBotoes implements ActionListener{
+    private class TratadorMouse extends MouseAdapter{
+        //Método moved: caso a posição do mouse estiver sido alterada, cai aqui. Para testá-lo, descomente o código.
+        /*
         @Override
-        public void actionPerformed(ActionEvent e) {
-           if(e.getSource().equals(Select)){
-               JOptionPane.showMessageDialog(null, "Select");
-           }
-           else if(e.getSource().equals(Actor)){
-               JOptionPane.showMessageDialog(null, "Actor");
-               Circulo actorCreate = new Circulo(200, 150);
-               //actorCreate.desenha();
-               telaDesenho.addFigura(actorCreate);
+        public void mouseMoved(MouseEvent e) {
+            Circulo useCaseCreate = new Circulo(e.getX(),e.getY());
+            super.mouseMoved(e); 
+            super.mouseDragged(e); 
+            if(UseCase!=null && UseCase.isSelected()){
+               telaDesenho.addFigura(useCaseCreate);
                getContentPane().repaint();
-           }
-           else if(e.getSource().equals(UseCase)){
-               
-                Circulo circ = new Circulo(200, 150);
-                telaDesenho.addFigura(circ);
-                getContentPane().repaint();
-           }
-           else if(e.getSource().equals(Association)){
-               JOptionPane.showMessageDialog(null, "Association");
-           }
-           else if(e.getSource().equals(Dependecy)){
-               JOptionPane.showMessageDialog(null, "Dependecy");
-           }
-           else if(e.getSource().equals(Line)){
-               JOptionPane.showMessageDialog(null, "Line");
-           }
-           else if(e.getSource().equals(Text)){
-               JOptionPane.showMessageDialog(null, "Text");
-           }           
+            }                      
+        }
+        */
+        //Método dragged: caso o botão do mouse estiver pressionado e a posição do mouse estiver sido alterada, cai nesse método.
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            Circulo useCaseCreate = new Circulo(e.getX(),e.getY());
+            super.mouseReleased(e);
+            if(Select != null && Select.isSelected()){
+                JOptionPane.showMessageDialog(null,"Select");
+            }            
+            else if(Actor != null && Actor.isSelected()){
+                JOptionPane.showMessageDialog(null,"Actor");
+            }            
+            else if(UseCase!=null && UseCase.isSelected()){
+               telaDesenho.addFigura(useCaseCreate);
+               getContentPane().repaint();
+            }
+            else if(Association != null && Association.isSelected()){
+                JOptionPane.showMessageDialog(null,"Association");
+            }            
+            else if(Dependecy != null && Dependecy.isSelected()){
+                JOptionPane.showMessageDialog(null,"Dependecy");
+            }            
+            else if(Line != null && Line.isSelected()){
+                JOptionPane.showMessageDialog(null,"Line");
+            }
+            else if(Text != null && Text.isSelected()){
+                JOptionPane.showMessageDialog(null,"Text");
+            }
+            else {
+                JOptionPane.showMessageDialog(null,"Nenhum botão selecionado");
+            }
+        }
+
+        //Método dragged: caso o botão do mouse estiver pressionado e for solto, cai nesse método.
+        @Override      
+        public void mouseReleased(MouseEvent e) {
+            Circulo useCaseCreate = new Circulo(e.getX(),e.getY());
+            super.mouseReleased(e);
+            if(Select != null && Select.isSelected()){
+                JOptionPane.showMessageDialog(null,"Select");
+            }            
+            else if(Actor != null && Actor.isSelected()){
+                JOptionPane.showMessageDialog(null,"Actor");
+            }            
+            else if(UseCase!=null && UseCase.isSelected()){
+               telaDesenho.addFigura(useCaseCreate);
+               getContentPane().repaint();
+            }
+            else if(Association != null && Association.isSelected()){
+                JOptionPane.showMessageDialog(null,"Association");
+            }            
+            else if(Dependecy != null && Dependecy.isSelected()){
+                JOptionPane.showMessageDialog(null,"Dependecy");
+            }            
+            else if(Line != null && Line.isSelected()){
+                JOptionPane.showMessageDialog(null,"Line");
+            }
+            else if(Text != null && Text.isSelected()){
+                JOptionPane.showMessageDialog(null,"Text");
+            }
+            else {
+                JOptionPane.showMessageDialog(null,"Nenhum botão selecionado");
+            }
+        }
+
+        //Método dragged: caso o botão do mouse for pressionado, cai nesse método.
+        @Override
+        public void mousePressed(MouseEvent e) {
+            Circulo useCaseCreate = new Circulo(e.getX(),e.getY());
+            super.mouseReleased(e);
+            if(Select != null && Select.isSelected()){
+                JOptionPane.showMessageDialog(null,"Select");
+            }            
+            else if(Actor != null && Actor.isSelected()){
+                JOptionPane.showMessageDialog(null,"Actor");
+            }            
+            else if(UseCase!=null && UseCase.isSelected()){
+               telaDesenho.addFigura(useCaseCreate);
+               getContentPane().repaint();
+            }
+            else if(Association != null && Association.isSelected()){
+                JOptionPane.showMessageDialog(null,"Association");
+            }            
+            else if(Dependecy != null && Dependecy.isSelected()){
+                JOptionPane.showMessageDialog(null,"Dependecy");
+            }            
+            else if(Line != null && Line.isSelected()){
+                JOptionPane.showMessageDialog(null,"Line");
+            }
+            else if(Text != null && Text.isSelected()){
+                JOptionPane.showMessageDialog(null,"Text");
+            }
+            else {
+                JOptionPane.showMessageDialog(null,"Nenhum botão selecionado");
+            }
         }
     }
 }
+
