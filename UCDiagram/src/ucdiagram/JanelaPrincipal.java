@@ -7,11 +7,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -24,7 +27,6 @@ import javax.swing.KeyStroke;
 public class JanelaPrincipal extends JFrame {
     
     private JToolBar barraFerramentas;
-    private JLabel statusBar;
     private JToggleButton Select, Actor, UseCase, Association, Dependecy, Line, Text;
     TelaDesenho telaDesenho;
     
@@ -67,21 +69,24 @@ public class JanelaPrincipal extends JFrame {
         menuFileNew.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                menuFileNew();       
+                menuFileNew();
             }
         });
+        // mostra subMenu FILE OPEN
+        JMenuItem menuFileOpen = new JMenuItem(TrataMenu.Open);// aqui insere o icone tambem
+        menuFile.add(menuFileOpen);
+        menuFileOpen.setName("Open");
+        menuFileOpen.setMnemonic(KeyEvent.VK_O);        
+        menuFileOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,ActionEvent.CTRL_MASK));
+        menuFileOpen.addActionListener(new TrataMenu());
         
         // mostra subMenu FILE SAVE
-        JMenuItem menuFileSave = new JMenuItem("Save");// aqui insere o icone tambem
+        JMenuItem menuFileSave = new JMenuItem(TrataMenu.Save);// aqui insere o icone tambem
         menuFile.add(menuFileSave);
+        menuFileSave.setName("Save");
         menuFileSave.setMnemonic(KeyEvent.VK_S);
-        menuFileSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,ActionEvent.CTRL_MASK));
-        menuFileSave.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                menuFileSave();
-            }
-        });
+        menuFileSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,ActionEvent.CTRL_MASK));
+        menuFileSave.addActionListener(new TrataMenu());
         
         // mostra subMenu FILE EXIT
         JMenuItem menuFileExit = new JMenuItem("Exit");// aqui insere o icone tambem
@@ -98,7 +103,7 @@ public class JanelaPrincipal extends JFrame {
         // mostra subMenu EDIT CLEAN
         JMenuItem menuEditClean = new JMenuItem("Clean");// aqui insere o icone tambem
         menuEdit.add(menuEditClean);
-        menuEditClean.setMnemonic(KeyEvent.VK_C);        
+        menuEditClean.setMnemonic(KeyEvent.VK_X);        
         menuEditClean.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,ActionEvent.CTRL_MASK));
         menuEditClean.addActionListener(new ActionListener(){
             @Override
@@ -110,7 +115,7 @@ public class JanelaPrincipal extends JFrame {
         // mostra subMenu HELP INGLES
         JMenuItem menuHelpEnglish = new JMenuItem("English");// aqui insere o icone tambem
         menuHelp.add(menuHelpEnglish);
-        menuHelpEnglish.setMnemonic(KeyEvent.VK_E);        
+        menuHelpEnglish.setMnemonic(KeyEvent.VK_E);
         menuHelpEnglish.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,ActionEvent.SHIFT_MASK));
         menuHelpEnglish.addActionListener(new ActionListener(){
             @Override
@@ -144,11 +149,50 @@ public class JanelaPrincipal extends JFrame {
     void menuFileNew(){
         toolbarMenu();
     }
-    void menuFileSave(){
-        JOptionPane.showMessageDialog(null,"Menu Salvar");
-    }
+    
+   private class TrataMenu implements ActionListener{ 
+        
+        public static final String Open="Open";
+        public static final String Save="Save";
+       
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            JComponent componente = (JComponent) e.getSource();
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            
+            switch(componente.getName()){
+                case Open:
+                    int returnVa = fileChooser.showOpenDialog(JanelaPrincipal.this);
+                    if (returnVa == JFileChooser.APPROVE_OPTION) {
+                        File file = fileChooser.getSelectedFile();
+                        try {
+                            telaDesenho.carregaDados(file);
+                            telaDesenho.repaint();
+                            JOptionPane.showMessageDialog(JanelaPrincipal.this, "Arquivo carregado com sucesso!");
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(JanelaPrincipal.this, "Erro ao ler do arquivo");
+                        }
+                    }
+                    break;
+                case Save:
+                    int returnVal = fileChooser.showSaveDialog(JanelaPrincipal.this);
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        File file = fileChooser.getSelectedFile();
+                        try {
+                            telaDesenho.salvarDados(file);
+                        } catch (IOException ex) {
+                            JOptionPane.showMessageDialog(JanelaPrincipal.this, "Erro ao salvar no arquivo");
+                        }
+                    }
+                    break;
+            }
+        }
+   }
+    
     void menuEditClean(){
-        telaDesenho.clearTela();
+        telaDesenho.limpar();
         getContentPane().repaint();
     }
     void menuHelpEnglish(){
@@ -160,33 +204,40 @@ public class JanelaPrincipal extends JFrame {
     
     public void toolbarMenu(){
         
+        ButtonGroup botaoGrupo = new ButtonGroup();
         barraFerramentas = new JToolBar();
         
         // cria botão select
         Select = new JToggleButton(createImageIcon("/imagens/Select.png","Select"), false);
+        botaoGrupo.add(Select);
         barraFerramentas.add(Select);
         // cria botão actor
         Actor = new JToggleButton(createImageIcon("/imagens/Actor.png","Actor"), false);
+        botaoGrupo.add(Actor);
         barraFerramentas.add(Actor);
         // cria botão usecase
         UseCase = new JToggleButton(createImageIcon("/imagens/UseCase.png","UseCase"), false);
-        barraFerramentas.add(UseCase);
+        botaoGrupo.add(UseCase);
+        barraFerramentas.add(UseCase);        
         // cria botão association
         Association = new JToggleButton(createImageIcon("/imagens/Association.png","Association"), false);
+        botaoGrupo.add(Association);
         barraFerramentas.add(Association);
         // cria botão dependecy
         Dependecy = new JToggleButton(createImageIcon("/imagens/Dependecy.png","Dependecy"), false);
+        botaoGrupo.add(Dependecy);
         barraFerramentas.add(Dependecy);
         // cria botão line
         Line = new JToggleButton(createImageIcon("/imagens/Line.png","Line"), false);
+        botaoGrupo.add(Line);
         barraFerramentas.add(Line);
         // cria botão text
         Text = new JToggleButton(createImageIcon("/imagens/Text.png","Text"), false);
+        botaoGrupo.add(Text);
         barraFerramentas.add(Text);
         
         barraFerramentas.setFloatable(false); // deixa o toolbar fixo na tela
         getContentPane().add(barraFerramentas,BorderLayout.SOUTH);
-        //getContentPane().add(new JScrollPane(telaDesenho));
         getContentPane().revalidate();
     }
     
@@ -202,113 +253,55 @@ public class JanelaPrincipal extends JFrame {
     }
     
     private class TratadorMouse extends MouseAdapter{
-        //Método moved: caso a posição do mouse estiver sido alterada, cai aqui. Para testá-lo, descomente o código.
-        /*
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            Circulo useCaseCreate = new Circulo(e.getX(),e.getY());
-            super.mouseMoved(e); 
-            super.mouseDragged(e); 
-            if(UseCase!=null && UseCase.isSelected()){
-               telaDesenho.addFigura(useCaseCreate);
-               getContentPane().repaint();
-            }                      
-        }
-        */
-        //Método dragged: caso o botão do mouse estiver pressionado e a posição do mouse estiver sido alterada, cai nesse método.
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            Circulo useCaseCreate = new Circulo(e.getX(),e.getY());
-            super.mouseReleased(e);
-            if(Select != null && Select.isSelected()){
-                JOptionPane.showMessageDialog(null,"Select");
-            }            
-            else if(Actor != null && Actor.isSelected()){
-                JOptionPane.showMessageDialog(null,"Actor");
-            }            
-            else if(UseCase!=null && UseCase.isSelected()){
-               telaDesenho.addFigura(useCaseCreate);
-               getContentPane().repaint();
-            }
-            else if(Association != null && Association.isSelected()){
-                JOptionPane.showMessageDialog(null,"Association");
-            }            
-            else if(Dependecy != null && Dependecy.isSelected()){
-                JOptionPane.showMessageDialog(null,"Dependecy");
-            }            
-            else if(Line != null && Line.isSelected()){
-                JOptionPane.showMessageDialog(null,"Line");
-            }
-            else if(Text != null && Text.isSelected()){
-                JOptionPane.showMessageDialog(null,"Text");
-            }
-            else {
-                JOptionPane.showMessageDialog(null,"Nenhum botão selecionado");
-            }
-        }
-
-        //Método dragged: caso o botão do mouse estiver pressionado e for solto, cai nesse método.
-        @Override      
-        public void mouseReleased(MouseEvent e) {
-            Circulo useCaseCreate = new Circulo(e.getX(),e.getY());
-            super.mouseReleased(e);
-            if(Select != null && Select.isSelected()){
-                JOptionPane.showMessageDialog(null,"Select");
-            }            
-            else if(Actor != null && Actor.isSelected()){
-                JOptionPane.showMessageDialog(null,"Actor");
-            }            
-            else if(UseCase!=null && UseCase.isSelected()){
-               telaDesenho.addFigura(useCaseCreate);
-               getContentPane().repaint();
-            }
-            else if(Association != null && Association.isSelected()){
-                JOptionPane.showMessageDialog(null,"Association");
-            }            
-            else if(Dependecy != null && Dependecy.isSelected()){
-                JOptionPane.showMessageDialog(null,"Dependecy");
-            }            
-            else if(Line != null && Line.isSelected()){
-                JOptionPane.showMessageDialog(null,"Line");
-            }
-            else if(Text != null && Text.isSelected()){
-                JOptionPane.showMessageDialog(null,"Text");
-            }
-            else {
-                JOptionPane.showMessageDialog(null,"Nenhum botão selecionado");
-            }
-        }
-
-        //Método dragged: caso o botão do mouse for pressionado, cai nesse método.
-        @Override
+        
+        public final static int TAMANHO = 50;
+        
         public void mousePressed(MouseEvent e) {
-            Circulo useCaseCreate = new Circulo(e.getX(),e.getY());
+            
+            int x = e.getX();
+            int y = e.getY();
+            int tam = TAMANHO;
+            
             super.mouseReleased(e);
-            if(Select != null && Select.isSelected()){
-                JOptionPane.showMessageDialog(null,"Select");
+            if(Select.isSelected()){
+                telaDesenho.verificaSelecao(x, y);
             }            
-            else if(Actor != null && Actor.isSelected()){
+            else if(Actor.isSelected()){
                 JOptionPane.showMessageDialog(null,"Actor");
             }            
-            else if(UseCase!=null && UseCase.isSelected()){
-               telaDesenho.addFigura(useCaseCreate);
-               getContentPane().repaint();
+            else if(UseCase.isSelected()){
+                
+                Circulo c = new Circulo(x, y, tam);
+                telaDesenho.addFigura(c);
+                
             }
-            else if(Association != null && Association.isSelected()){
+            else if(Association.isSelected()){
                 JOptionPane.showMessageDialog(null,"Association");
             }            
-            else if(Dependecy != null && Dependecy.isSelected()){
+            else if(Dependecy.isSelected()){
                 JOptionPane.showMessageDialog(null,"Dependecy");
             }            
-            else if(Line != null && Line.isSelected()){
+            else if(Line.isSelected()){
                 JOptionPane.showMessageDialog(null,"Line");
             }
-            else if(Text != null && Text.isSelected()){
+            else if(Text.isSelected()){
                 JOptionPane.showMessageDialog(null,"Text");
             }
-            else {
+            else
                 JOptionPane.showMessageDialog(null,"Nenhum botão selecionado");
+            
+            telaDesenho.repaint();
+        }
+        public void mouseDragged(MouseEvent e) {
+            int x = e.getX();
+            int y = e.getY();
+            if(Select.isSelected()){
+                
+                Figura figura = telaDesenho.getSelecionado();
+                if(figura!=null)
+                    figura.moveTo(x, y);
             }
+            telaDesenho.repaint();
         }
     }
 }
