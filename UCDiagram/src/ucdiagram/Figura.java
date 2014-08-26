@@ -11,7 +11,7 @@ abstract class Figura implements Serializable{
     public Figura(int posX, int posY){
         this.posX = posX;
         this.posY = posY;
-        selecionado=false;
+        selecionado = false;
     }
 
     public int getPosX() {
@@ -42,4 +42,8 @@ abstract class Figura implements Serializable{
     
     public abstract void desenha(Graphics g);
     public abstract boolean intersecta(int x, int y);
+
+    void paintComponent(Graphics g) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

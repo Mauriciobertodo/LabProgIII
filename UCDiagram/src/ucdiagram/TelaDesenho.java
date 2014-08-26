@@ -29,11 +29,12 @@ public class TelaDesenho extends JPanel{
     }
     
     public void verificaSelecao(int x, int y){
-        for(Figura f:listaFiguras)
+        for(Figura f:listaFiguras){
             if(f.intersecta(x, y)){
                 deselecionarFiguras();
                 f.selecionar();
             }
+        }
     }
     
     public Figura getSelecionado(){
@@ -51,7 +52,7 @@ public class TelaDesenho extends JPanel{
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
+        super.paintComponent(g);
         for(Figura f:listaFiguras)
             f.desenha(g);
     }    

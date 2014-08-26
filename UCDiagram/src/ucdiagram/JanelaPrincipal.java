@@ -39,6 +39,7 @@ public class JanelaPrincipal extends JFrame {
        setLocationRelativeTo(null);                             // localiza no centro da tela
        setVisible(true);                                        // seta como visivel
     }
+    
     public void menuOpcoes(){
 
         telaDesenho = new TelaDesenho();
@@ -150,7 +151,7 @@ public class JanelaPrincipal extends JFrame {
         toolbarMenu();
     }
     
-   private class TrataMenu implements ActionListener{ 
+    private class TrataMenu implements ActionListener{ 
         
         public static final String Open="Open";
         public static final String Save="Save";
@@ -170,7 +171,6 @@ public class JanelaPrincipal extends JFrame {
                         try {
                             telaDesenho.carregaDados(file);
                             telaDesenho.repaint();
-                            JOptionPane.showMessageDialog(JanelaPrincipal.this, "Arquivo carregado com sucesso!");
                         } catch (Exception ex) {
                             JOptionPane.showMessageDialog(JanelaPrincipal.this, "Erro ao ler do arquivo");
                         }
@@ -263,39 +263,53 @@ public class JanelaPrincipal extends JFrame {
             int tam = TAMANHO;
             
             super.mouseReleased(e);
-            if(Select.isSelected()){
+            if(Select != null && Select.isSelected()){
+                
                 telaDesenho.verificaSelecao(x, y);
             }            
-            else if(Actor.isSelected()){
+            else if(Actor != null && Actor.isSelected()){
+                
+                //Ator a = new Ator(x, y, tam);
+                //telaDesenho.add(new Ator(x, y, tam));
+                //telaDesenho.addFigura();
                 JOptionPane.showMessageDialog(null,"Actor");
             }            
-            else if(UseCase.isSelected()){
+            else if(UseCase != null && UseCase.isSelected()){
                 
                 Circulo c = new Circulo(x, y, tam);
                 telaDesenho.addFigura(c);
                 
             }
-            else if(Association.isSelected()){
+            else if(Association != null && Association.isSelected()){
                 JOptionPane.showMessageDialog(null,"Association");
             }            
-            else if(Dependecy.isSelected()){
+            else if(Dependecy != null && Dependecy.isSelected()){
                 JOptionPane.showMessageDialog(null,"Dependecy");
             }            
-            else if(Line.isSelected()){
+            else if(Line != null && Line.isSelected()){
                 JOptionPane.showMessageDialog(null,"Line");
             }
-            else if(Text.isSelected()){
-                JOptionPane.showMessageDialog(null,"Text");
+            else if(Text != null && Text.isSelected()){
+                
+                String texto = JOptionPane.showInputDialog("Texto: ");
+                Texto t = new Texto(x, y, texto);
+                telaDesenho.addFigura(t);
             }
             else
                 JOptionPane.showMessageDialog(null,"Nenhum botão selecionado");
             
             telaDesenho.repaint();
         }
-        public void mouseDragged(MouseEvent e) {
+        public void mouseDragged(MouseEvent e){
             int x = e.getX();
             int y = e.getY();
-            if(Select.isSelected()){
+            if(Select != null && Select.isSelected()){
+                
+                Figura figura = telaDesenho.getSelecionado();
+                if(figura!=null)
+                    figura.moveTo(x, y);
+            }
+            else if(Actor != null && Actor.isSelected()){
                 
                 Figura figura = telaDesenho.getSelecionado();
                 if(figura!=null)
