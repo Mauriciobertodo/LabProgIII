@@ -140,7 +140,7 @@ public class JanelaPrincipal extends JFrame{
         barraFerramentas = new JToolBar();
         barraFerramentas.setOrientation(JToolBar.VERTICAL);
         
-        Selecionar = new JToggleButton(createImageIcon("/imagens/Select.png","Selecionar"), false);
+        Selecionar = new JToggleButton(createImageIcon("/imagens/Select.png","Selecionar"), true);
         botaoGrupo.add(Selecionar);
         barraFerramentas.add(Box.createVerticalStrut(5));
         barraFerramentas.add(Selecionar);
@@ -270,17 +270,21 @@ public class JanelaPrincipal extends JFrame{
             super.mouseReleased(e);
             if(Selecionar != null && Selecionar.isSelected()){
                 
-                telaDesenho.verificaSelecao(x, y);
+                telaDesenho.verificaSelecao(x, y);                
             }            
             else if(Terminacao != null && Terminacao.isSelected()){
                 
                 Figura imagem = new Figura("terminacao", x, y);
-                telaDesenho.addFigura(imagem);
+                telaDesenho.addFigura(imagem);                
             }
             else if(Decisao != null && Decisao.isSelected()){
                 
                 Figura imagem = new Figura("decisao", x, y);
                 telaDesenho.addFigura(imagem);
+                
+                String texto = JOptionPane.showInputDialog("Decisão: ");
+                Texto t = new Texto(x, y, texto);
+                telaDesenho.addFigura(t);
             }
             else if(Conector != null && Conector.isSelected()){
                 
@@ -291,16 +295,28 @@ public class JanelaPrincipal extends JFrame{
                 
                 Figura imagem = new Figura("processo", x, y);
                 telaDesenho.addFigura(imagem);
+                
+                String texto = JOptionPane.showInputDialog("Decisão: ");
+                Texto t = new Texto(x, y, texto);
+                telaDesenho.addFigura(t);
             }
             else if(ProcessoAlt != null && ProcessoAlt.isSelected()){
                 
                 Figura imagem = new Figura("processoAlternativo", x, y);
                 telaDesenho.addFigura(imagem);
+                
+                String texto = JOptionPane.showInputDialog("Decisão: ");
+                Texto t = new Texto(x, y, texto);
+                telaDesenho.addFigura(t);
             }
             else if(ProcessoPred != null && ProcessoPred.isSelected()){
                 
                 Figura imagem = new Figura("processoPredefinido", x, y);
                 telaDesenho.addFigura(imagem);
+                
+                String texto = JOptionPane.showInputDialog("Decisão: ");
+                Texto t = new Texto(x, y, texto);
+                telaDesenho.addFigura(t);
             }
             else if(setaCima != null && setaCima.isSelected()){
                 
@@ -323,7 +339,6 @@ public class JanelaPrincipal extends JFrame{
                 telaDesenho.addFigura(imagem);
             }
             else if(del != null && del.isSelected()){
-                
                 menuEditClean();
             }
             telaDesenho.repaint();
