@@ -29,6 +29,7 @@ import javax.swing.KeyStroke;
 public class JanelaPrincipal extends JFrame{
     
     private JToolBar barraFerramentas;
+    private JToggleButton setaDireita, setaEsquerda, setaCima, setaBaixo,del;
     private JToggleButton Selecionar, Conector, Decisao, Terminacao, Processo, ProcessoAlt, ProcessoPred, Seta, Text;
     TelaDesenho telaDesenho;
     
@@ -174,22 +175,37 @@ public class JanelaPrincipal extends JFrame{
         botaoGrupo.add(ProcessoPred);
         barraFerramentas.add(Box.createVerticalStrut(5));
         barraFerramentas.add(ProcessoPred);
-        
-        Seta = new JToggleButton(createImageIcon("/imagens/seta.png","Seta"), false);
-        botaoGrupo.add(Seta);
+                
+        setaCima = new JToggleButton(createImageIcon("/imagens/setaCima.png","setaCima"), false);
+        botaoGrupo.add(setaCima);
         barraFerramentas.add(Box.createVerticalStrut(5));
-        barraFerramentas.add(Seta);
+        barraFerramentas.add(setaCima);
         
-        Text = new JToggleButton(createImageIcon("/imagens/texto.png","Texto"), false);
-        botaoGrupo.add(Text);
+        setaDireita = new JToggleButton(createImageIcon("/imagens/setaDireita.png","setaDireita"), false);
+        botaoGrupo.add(setaDireita);
         barraFerramentas.add(Box.createVerticalStrut(5));
-        barraFerramentas.add(Text);
+        barraFerramentas.add(setaDireita);
+        
+        setaEsquerda = new JToggleButton(createImageIcon("/imagens/setaEsquerda.png","setaEsquerda"), false);
+        botaoGrupo.add(setaEsquerda);
+        barraFerramentas.add(Box.createVerticalStrut(5));
+        barraFerramentas.add(setaEsquerda);
+        
+        setaBaixo = new JToggleButton(createImageIcon("/imagens/setaBaixo.png","setaBaixo"), false);
+        botaoGrupo.add(setaBaixo);
+        barraFerramentas.add(Box.createVerticalStrut(5));
+        barraFerramentas.add(setaBaixo);
+        
+        del = new JToggleButton(createImageIcon("/imagens/limpar.png","del"), false);
+        botaoGrupo.add(del);
+        barraFerramentas.add(Box.createVerticalStrut(5));
+        barraFerramentas.add(del);
         
         barraFerramentas.setFloatable(false); // deixa o toolbar fixo na tela
         getContentPane().add(barraFerramentas,BorderLayout.WEST);
         getContentPane().revalidate();
-        
     }
+      
     protected static ImageIcon createImageIcon(String path,String description) {
         java.net.URL imgURL = JanelaPrincipal.class.getResource(path);
         if (imgURL != null) {
@@ -286,11 +302,30 @@ public class JanelaPrincipal extends JFrame{
                 Figura imagem = new Figura("processoPredefinido", x, y);
                 telaDesenho.addFigura(imagem);
             }
-            else if(Seta != null && Seta.isSelected()){
+            else if(setaCima != null && setaCima.isSelected()){
                 
-                Figura imagem = new Figura("seta", x, y);
+                Figura imagem = new Figura("setaCima", x, y);
                 telaDesenho.addFigura(imagem);
-            }            
+            }
+            else if(setaDireita != null && setaDireita.isSelected()){
+                
+                Figura imagem = new Figura("setaDireita", x, y);
+                telaDesenho.addFigura(imagem);
+            }
+            else if(setaEsquerda != null && setaEsquerda.isSelected()){
+                
+                Figura imagem = new Figura("setaEsquerda", x, y);
+                telaDesenho.addFigura(imagem);
+            }
+            else if(setaBaixo != null && setaBaixo.isSelected()){
+                
+                Figura imagem = new Figura("setaBaixo", x, y);
+                telaDesenho.addFigura(imagem);
+            }
+            else if(del != null && del.isSelected()){
+                
+                menuEditClean();
+            }
             telaDesenho.repaint();
         }
         
