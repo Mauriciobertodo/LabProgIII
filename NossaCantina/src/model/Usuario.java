@@ -7,11 +7,11 @@ public class Usuario {
     private String nome;
     private int matricula;
     private String email;
-    private int tipo_usuario;
+    private String tipo_usuario;
     private int conta_usuario;
     private int senha;
     
-    public Usuario(int id, String nome, int matricula, String email, int tipo_usuario, int conta_usuario, int senha){
+    public Usuario(int id, String nome, int matricula, String email, String tipo_usuario, int conta_usuario, int senha){
         this.id = id;        
         this.nome = nome;
         this.matricula = matricula;
@@ -33,7 +33,7 @@ public class Usuario {
     public int getId() {
         return id;
     }    
-    public int getTipo_usuario() {
+    public String getTipo_usuario() {
         return tipo_usuario;
     }
     public String getNome() {

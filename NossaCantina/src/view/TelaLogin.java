@@ -1,47 +1,69 @@
 package view;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import model.ConexaoBanco;
+import model.Usuario;
 
 /**
  *
  * @author MauricioBertodo
  */
 public class TelaLogin extends javax.swing.JFrame {
-   
+     
+    private Connection conexao;
+    private PreparedStatement comando;
+    String tipo_usuario;
+       
     public TelaLogin() {
         initComponents();
     }
-    
-    public void validarLogin(){
+    private void iniciaConexao(String sql) throws ClassNotFoundException, SQLException{
+        conexao = ConexaoBanco.getConnection();
+        comando = conexao.prepareStatement(sql);
+    }
+    private void fecharConexao() throws SQLException{
+        comando.close();
+        conexao.close();
+    }
+    public boolean consultar(int matricula,int senha){
         
-        ConexaoBanco con = new ConexaoBanco();
-        con.lerDados();
-        String querySeguranca = "SELECT * FROM dadosusuario";
+        boolean autenticado = false;
+        String sql;
         
         try {
-            
-            con.stm = con.startConexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            con.rts = con.stm.executeQuery(querySeguranca);
-            con.rts.first();            
-            
-            if(jTextField2.getText().equals(con.rts.getString("matricula"))
-                && jPasswordField1.getText().equals(con.rts.getString("senha"))){
-
-                JOptionPane.showMessageDialog(null, "Acesso permitido!");
-            }
-            else
-                JOptionPane.showMessageDialog(null, "Acesso negado!");
-
+                Connection conn = ConexaoBanco.getConnection();            
+                sql = "SELECT matricula,senha,tipo_usuario FROM dadosusuario WHERE matricula=? and senha=?";
+                
+                comando = conn.prepareStatement(sql);
+                comando.setInt(1,matricula);
+                comando.setInt(2,senha);
+                
+                ResultSet rs;
+                rs = comando.executeQuery();
+                
+                if(rs.next()){
+                    int user = rs.getInt("matricula");
+                    int pass = rs.getInt("senha");
+                    tipo_usuario = rs.getString("tipo_usuario");
+                    autenticado = true;
+                }
+                else{
+                    comando.close();
+                    return autenticado;
+                }
         } 
-        catch (SQLException ex) {
-            System.out.println("Erro: " + ex.getMessage());
+        catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
         }
+        return autenticado;       
     }
-    
     @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -131,7 +153,19 @@ public class TelaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        validarLogin();
+        boolean resposta = consultar(Integer.parseInt(jTextField2.getText()),Integer.parseInt(jPasswordField1.getText()));
+        if(resposta == true){
+            
+            if(tipo_usuario.equalsIgnoreCase("aluno")){
+                JOptionPane.showMessageDialog(null, "ACESSO ALUNO");
+            }
+            else if(tipo_usuario.equalsIgnoreCase("funcionario")){
+                JOptionPane.showMessageDialog(null, "ACESSO FUNCIONARIO");
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "ACESSO NEGADO");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -151,35 +185,10 @@ public class TelaLogin extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new TelaLogin().setVisible(true);
             }
         });
-        
     }
 }
