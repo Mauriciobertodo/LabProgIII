@@ -21,9 +21,13 @@ public class Usuario {
         this.conta_usuario = conta_usuario;
         this.saldo_conta_usuario = saldo_conta_usuario;
     }
-
-    public Usuario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public Usuario(String nome, String tipo_usuario, int conta_usuario, 
+            int saldo_conta_usuario) {
+        this.nome = nome;
+        this.tipo_usuario = tipo_usuario;
+        this.conta_usuario = conta_usuario;
+        this.saldo_conta_usuario = saldo_conta_usuario;
     }
     
     public int getId() {
@@ -74,7 +78,6 @@ public class Usuario {
         return("Nome: "+ nome 
                 + "\nMatricula: " + matricula 
                 + "\nConta: " + conta_usuario
-                + "\nTipo:" + tipo_usuario
-                + "\nEmail: " + email);
+                + "\nTipo:" + tipo_usuario);
     }
 }

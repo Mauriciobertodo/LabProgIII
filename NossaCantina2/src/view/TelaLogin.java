@@ -1,17 +1,13 @@
 package view;
 
 import controller.TelasController;
-import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 /**
  ** @author MauricioBertodo
  */
 public class TelaLogin extends javax.swing.JFrame {
     
     TelasController telaConectaBanco = new TelasController();
-    
-    String data = "dd/MM/yyyy";
-    java.util.Date agora = new java.util.Date();
-    SimpleDateFormat formata = new SimpleDateFormat(data);
     
     public TelaLogin() {
         initComponents();
@@ -35,6 +31,7 @@ public class TelaLogin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setIconImages(null);
         setResizable(false);
 
         jLabel1.setText("Insira a senha para acessar!");
@@ -105,8 +102,13 @@ public class TelaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ConfirmaLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmaLoginActionPerformed
-      telaConectaBanco.telaValidaLogin(Integer.parseInt(UsuarioText.getText()),Integer.parseInt(SenhaText.getText()));   
-      dispose();
+        if(UsuarioText.getText().trim().isEmpty() && SenhaText.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Informe usuario e senha!");
+        }
+        else{
+            telaConectaBanco.telaValidaLogin(Integer.parseInt(UsuarioText.getText()),Integer.parseInt(SenhaText.getText()));
+            dispose();
+        }
     }//GEN-LAST:event_ConfirmaLoginActionPerformed
 
     private void CancelaLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelaLoginActionPerformed
@@ -117,9 +119,9 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JButton CancelaLogin;
     private javax.swing.JButton ConfirmaLogin;
     private javax.swing.JLabel SenhaLabel;
-    private javax.swing.JPasswordField SenhaText;
+    public javax.swing.JPasswordField SenhaText;
     private javax.swing.JLabel UsuarioLabel;
-    private javax.swing.JTextField UsuarioText;
+    public javax.swing.JTextField UsuarioText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables

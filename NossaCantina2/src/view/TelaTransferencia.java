@@ -1,10 +1,8 @@
 
 package view;
 import controller.TelasController;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
-import javax.swing.JLabel;
-import javax.xml.crypto.Data;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,14 +11,14 @@ import javax.xml.crypto.Data;
 public class TelaTransferencia extends javax.swing.JFrame {
 
     private TelasController controller;
-    
+       
     String data = "dd/MM/yy";
     java.util.Date agora = new java.util.Date();
     SimpleDateFormat formata = new SimpleDateFormat(data); 
     
     public TelaTransferencia(TelasController controller) {
         this.controller = controller;  
-        initComponents();        
+        initComponents();
     }
     
     @SuppressWarnings("unchecked")
@@ -42,11 +40,6 @@ public class TelaTransferencia extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         informaContaParaTranferencia = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        validaContaParaTranferencia = new javax.swing.JLabel();
-        validarContaUsuario = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        valorDeposito = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         confirmarTransferencia = new javax.swing.JButton();
         cancelarTransferencia = new javax.swing.JButton();
@@ -140,43 +133,21 @@ public class TelaTransferencia extends javax.swing.JFrame {
 
         jLabel5.setText("Informe os dados abaixo para transferir");
 
-        jLabel7.setText("Nome:");
-
-        validaContaParaTranferencia.setText("saldoConta");
-
-        validarContaUsuario.setText("Validar");
-
-        jLabel6.setText("Valor de deposito:");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(validaContaParaTranferencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGap(10, 10, 10))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(informaContaParaTranferencia)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addComponent(validarContaUsuario))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                        .addGap(85, 85, 85))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
+                        .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(valorDeposito)
-                        .addGap(71, 71, 71)))
-                .addContainerGap())
+                        .addComponent(informaContaParaTranferencia)
+                        .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,31 +157,32 @@ public class TelaTransferencia extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(informaContaParaTranferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(validarContaUsuario))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(validaContaParaTranferencia))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(valorDeposito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(informaContaParaTranferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         confirmarTransferencia.setText("Confirmar");
+        confirmarTransferencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmarTransferenciaActionPerformed(evt);
+            }
+        });
 
         cancelarTransferencia.setText("Cancelar");
+        cancelarTransferencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarTransferenciaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(confirmarTransferencia)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cancelarTransferencia)
                 .addContainerGap())
         );
@@ -248,7 +220,7 @@ public class TelaTransferencia extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -257,19 +229,32 @@ public class TelaTransferencia extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void confirmarTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmarTransferenciaActionPerformed
+       if(informaContaParaTranferencia.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Informe a conta para transferencia!");
+       }
+       else{
+           controller.buscaContaUsuario(Integer.parseInt(informaContaParaTranferencia.getText()));
+           dispose();
+       }            
+    }//GEN-LAST:event_confirmarTransferenciaActionPerformed
+
+    private void cancelarTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarTransferenciaActionPerformed
+      controller.retornaTipoAcesso();
+      dispose();
+    }//GEN-LAST:event_cancelarTransferenciaActionPerformed
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelarTransferencia;
     private javax.swing.JButton confirmarTransferencia;
     public javax.swing.JLabel contaLabel;
     public javax.swing.JLabel dataLabel;
-    private javax.swing.JTextField informaContaParaTranferencia;
+    public javax.swing.JTextField informaContaParaTranferencia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -278,8 +263,5 @@ public class TelaTransferencia extends javax.swing.JFrame {
     public javax.swing.JLabel matriculaLabel;
     public javax.swing.JLabel nomeLabel;
     public javax.swing.JLabel saldoConta;
-    public javax.swing.JLabel validaContaParaTranferencia;
-    private javax.swing.JButton validarContaUsuario;
-    private javax.swing.JTextField valorDeposito;
     // End of variables declaration//GEN-END:variables
 }
